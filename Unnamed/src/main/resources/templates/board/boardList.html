@@ -1,11 +1,12 @@
 ﻿<div style="width: 60%;">
+    <h2>자유 게시판</h2>
+
     <table class="table table-striped">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">제목</th>
             <th scope="col">작성자</th>
-            <th scope="col">내용</th>
             <th scope="col">등록일</th>
             <th scope="col">조회수</th>
         </tr>
@@ -17,13 +18,12 @@
                 <a th:href="@{#}" th:onclick="|loadPage('@{/getBoard(seq=${board.seq})}')|" th:text="${board.title}"></a>
             </td>
             <td th:text="${board.writer}"></td>
-            <td th:text="${board.content}"></td>
             <td th:text="${#dates.format(board.createdDate, 'yyyy-MM-dd')}"></td>
             <td th:text="${board.cnt}"></td>
         </tbody>
     </table>
 
-    <div sec:authorize="isAuthenticated()">
-        <button class="btn btn-primary" th:onclick="|loadPage('@{/writeBoard}')|">글쓰기</button>
+    <div sec:authorize="isAuthenticated()" class="d-flex justify-content-end">
+        <button class="btn btn-primary" th:onclick="|loadPage('@{/insertBoard}')|">글쓰기</button>
     </div>
 </div>

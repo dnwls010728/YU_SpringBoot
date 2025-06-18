@@ -3,6 +3,8 @@ package com.yuhan.unnamed.controller;
 import com.yuhan.unnamed.domain.Board;
 import com.yuhan.unnamed.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +33,10 @@ public class BoardController {
     }
 
     @GetMapping("/getBoard")
-    public String getBoard(Board board, Model model) {
+    public String getBoard(Board board, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        model.addAttribute("username", userDetails != null ? userDetails.getUsername() : "");
         model.addAttribute("board", boardService.getBoard(board));
-        return "getBoard";
+        return "board/boardDetail";
     }
 
     @PostMapping("/updateBoard")

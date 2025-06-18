@@ -16,7 +16,7 @@ public class BoardController {
     @GetMapping("/getBoardList")
     public String getBoardList(Board board, Model model) {
         model.addAttribute("boardList", boardService.getBoardList(board));
-        return "getBoardList";
+        return "board/boardList";
     }
 
     @GetMapping("/insertBoard")

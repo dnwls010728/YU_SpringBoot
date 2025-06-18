@@ -20,10 +20,11 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/idontknow").authenticated()
+                        .requestMatchers("/getBoardList").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
+
                         .loginProcessingUrl("/login")
                         .successHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
                         .failureHandler((req, res, ex) -> {
@@ -31,6 +32,12 @@ public class SecurityConfig {
                             res.getWriter().write("BAD_CREDENTIALS");
                         })
                         .permitAll()
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((req, res, e) -> {
+                            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            res.setHeader("X-Auth-Required", "true");
+                        })
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")

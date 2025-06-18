@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AccountService implements UserDetailsService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
 
@@ -33,7 +33,7 @@ public class AccountService implements UserDetailsService {
     }
 
     @Transactional
-    public boolean join(String username, String password) {
+    public boolean register(String username, String password) {
         if (userRepository.findByUsername(username) != null) {
             return false;
         }

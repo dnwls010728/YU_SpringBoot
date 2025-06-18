@@ -1,5 +1,6 @@
 package com.yuhan.unnamed.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,12 +24,17 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
+                        .loginProcessingUrl("/login")
+                        .successHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
+                        .failureHandler((req, res, ex) -> {
+                            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            res.getWriter().write("BAD_CREDENTIALS");
+                        })
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/")
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
                         .permitAll());
         return http.build();
     }

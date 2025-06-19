@@ -1,11 +1,23 @@
 ﻿<script>
-  $(document).ready(() => {
-    tinymce.init({
-      selector: '#tiny'
-    });
+  if (tinymce.get('tiny')) {
+    tinymce.get('tiny').remove();
+  }
+
+  tinymce.init({
+    selector: 'textarea#tiny',
+    setup: (editor) => {
+      editor.on('change', (e) => {
+        console.log(tinymce.get("tiny").getContent());
+      });
+    },
   });
 </script>
 
 <div>
+  <input type="text" class="form-control" placeholder="제목을 입력하세요" />
   <label for="tiny"></label><textarea id="tiny"></textarea>
+
+  <div class="d-flex justify-content-end mt-3">
+    <button class="btn btn-primary" th:onclick="|loadPage('@{/insertBoard}')|">글쓰기</button>
+  </div>
 </div>

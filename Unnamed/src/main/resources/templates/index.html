@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>테스트</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -58,7 +57,7 @@
             container.replaceChildren();
 
             try {
-                const res = await fetch(url, { headers: { 'X-Requested-With': 'fetch' } });
+                const res = await fetch(url, {headers: {'X-Requested-With': 'fetch'}});
                 if (res.status === 401 && res.headers.get('X-Auth-Required')) {
                     // ① 로그인 필요 → 모달 오픈
                     bootstrap.Modal.getOrCreateInstance('#exampleModal').show();
@@ -104,8 +103,7 @@
 
             } catch (err) {
                 console.error('페이지 로드 실패:', err);
-                container.innerHTML =
-                    `<div class="alert alert-danger">페이지를 불러오는 데 실패했습니다.<br><code>${err.message}</code></div>`;
+                container.innerHTML = `<div class="alert alert-danger">페이지를 불러오는 데 실패했습니다.<br><code>${err.message}</code></div>`;
             }
         }
     </script>
@@ -114,53 +112,69 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">테스트</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        게시판
-                    </a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">게시판</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#" onclick="loadPage('getBoardList');">자유 게시판</a></li>
                     </ul>
                 </li>
             </ul>
             <div class="col-md-3 text-end" sec:authorize="isAnonymous()">
-                <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">로그인
-                </button>
+                <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">로그인</button>
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content rounded-4 shadow">
                             <div class="modal-header p-5 pb-4 border-bottom-0">
                                 <h1 class="fw-bold mb-0 fs-2">로그인</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body p-5 pt-0">
                                 <form class="" id="loginForm" th:action="@{/login}" method="post">
-                                    <input type="hidden" th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}"/>
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control rounded-3" id="floatingInput"
-                                               placeholder="ID" name="username"> <label
-                                            for="floatingInput">아이디</label>
+                                        <input type="text" class="form-control rounded-3" id="floatingInput" placeholder="ID" name="username">
+                                        <label for="floatingInput">아이디</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control rounded-3" id="floatingPassword"
-                                               placeholder="Password" name="password">
+                                        <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="password">
                                         <label for="floatingPassword">비밀번호</label>
                                     </div>
-                                    <div id="loginError" class="text-danger small text-center w-100 mt-2"
-                                         hidden></div>
-                                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">로그인
-                                    </button>
+                                    <div id="loginError" class="text-danger small text-center w-100 mt-2" hidden></div>
+                                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">로그인</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#registerModal">회원가입</button>
+
+                <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content rounded-4 shadow">
+                            <div class="modal-header p-5 pb-4 border-bottom-0">
+                                <h1 class="fw-bold mb-0 fs-2">회원가입</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-5 pt-0">
+                                <form class="" id="registerForm" th:action="@{/register}" method="get">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control rounded-3" id="floatingRegisterID" placeholder="ID" name="username">
+                                        <label for="floatingRegisterID">아이디</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control rounded-3" id="floatingRegisterPassword" placeholder="Password" name="password">
+                                        <label for="floatingRegisterPassword">비밀번호</label>
+                                    </div>
+                                    <div id="registerError" class="text-danger small text-center w-100 mt-2" hidden></div>
+                                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">회원가입</button>
                                 </form>
                             </div>
                         </div>
@@ -176,8 +190,7 @@
                    class="d-flex align-items-center gap-2 link-body-emphasis text-decoration-none dropdown-toggle"
                    data-bs-toggle="dropdown" aria-expanded="false">
                     <span sec:authentication="name" class="fw-semibold">사용자</span>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAAAXNSR0IArs4c6QAAAmBJREFUWEfVl+tRAzEMhJVKgEqASoBKgEqASoBKoBPIDt7M3p5k+wI/gmcyMIlsf9bqYe/ihMbuhFji38OcR8RNRFxFBP7HB+NT/r5FxPveBn+nxxbPYNP7/aa306v/AD7ugZ9n5szCAOKhsyA2pYcyM/x+Ld5LlxrBYIOnJokuQDCcWgdlu2weVMAh0Ajm1UAA8TI6YaNjbKlHAXRXxVIPxkHg5iogsTED2CXAb1hLAz2VrIKBNBqoGYhLSBgEayafA104dQaDTT7EMAMBKICrAQ9inseTrgu5FlmWwag8MMYkHagvsNGRZRNixT2kh8CchXcymC/ZBcYeCwoLDwCWMCiGDNgse1zahdcdRskzr4BzC+xI4oWcDqOBu9K0pTklWrm5eVQLZCaVxuRiDYdBgDEFM4nKhURalTE7EEzV5rCPw6gEVdorsJ/cMzE7kMMcpKxgKgmwkPcp2CK+AKK1KUtvOlDD4VcwVb/ymlN5BXZTMKplr1VkfYcww4bYiuoqNn1Dhen1Im6MBVEEz9oXsxeqNDYdRuOhqjOdLjD1U1nLHGYmdRnEfu3E95AIHwRvddUoU39rb8r6UuUOZpn2J5+/2D+D8WbGy9AWEAXUWtRtwjP3GWaH30cQUx6wDGi+HgiFZEA84kCUc+o+A2O/nbkUo0wb1aJ0/qiW6GVITznzHvLWwPlVvxq+KDMPZYHpnqMklGUIAoPR64CSZc8VTWVervSFqYDdVwENZ2C02lZQW9K7rIxbYLgIUh+PNGaOL66Fz+/A3RJ9DIwvSChW3qmekBn9BczRm/vEk4L5Bp0bsiRyplaBAAAAAElFTkSuQmCC"
-                         alt="mdo" width="36" height="36" class="rounded-circle">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAAAXNSR0IArs4c6QAAAmBJREFUWEfVl+tRAzEMhJVKgEqASoBKgEqASoBKoBPIDt7M3p5k+wI/gmcyMIlsf9bqYe/ihMbuhFji38OcR8RNRFxFBP7HB+NT/r5FxPveBn+nxxbPYNP7/aa306v/AD7ugZ9n5szCAOKhsyA2pYcyM/x+Ld5LlxrBYIOnJokuQDCcWgdlu2weVMAh0Ajm1UAA8TI6YaNjbKlHAXRXxVIPxkHg5iogsTED2CXAb1hLAz2VrIKBNBqoGYhLSBgEayafA104dQaDTT7EMAMBKICrAQ9inseTrgu5FlmWwag8MMYkHagvsNGRZRNixT2kh8CchXcymC/ZBcYeCwoLDwCWMCiGDNgse1zahdcdRskzr4BzC+xI4oWcDqOBu9K0pTklWrm5eVQLZCaVxuRiDYdBgDEFM4nKhURalTE7EEzV5rCPw6gEVdorsJ/cMzE7kMMcpKxgKgmwkPcp2CK+AKK1KUtvOlDD4VcwVb/ymlN5BXZTMKplr1VkfYcww4bYiuoqNn1Dhen1Im6MBVEEz9oXsxeqNDYdRuOhqjOdLjD1U1nLHGYmdRnEfu3E95AIHwRvddUoU39rb8r6UuUOZpn2J5+/2D+D8WbGy9AWEAXUWtRtwjP3GWaH30cQUx6wDGi+HgiFZEA84kCUc+o+A2O/nbkUo0wb1aJ0/qiW6GVITznzHvLWwPlVvxq+KDMPZYHpnqMklGUIAoPR64CSZc8VTWVervSFqYDdVwENZ2C02lZQW9K7rIxbYLgIUh+PNGaOL66Fz+/A3RJ9DIwvSChW3qmekBn9BczRm/vEk4L5Bp0bsiRyplaBAAAAAElFTkSuQmCC" alt="mdo" width="36" height="36" class="rounded-circle">
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end text-small" data-bs-boundary="viewport">
@@ -185,8 +198,7 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="#"
-                           onclick="document.getElementById('logoutForm').submit();">로그아웃</a>
+                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('logoutForm').submit();">로그아웃</a>
                     </li>
                 </ul>
             </div>
@@ -197,8 +209,6 @@
 <div id="content" class="d-flex justify-content-center" style="margin-top: 20px;">
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

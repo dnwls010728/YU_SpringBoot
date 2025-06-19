@@ -15,7 +15,7 @@
         <tr th:each="board : ${boardList}">
             <th scope="row" th:text="${board.seq}"></th>
             <td>
-                <a th:href="@{#}" th:onclick="|loadPage('@{/getBoard(seq=${board.seq})}')|" th:text="${board.title}"></a>
+                <a th:href="@{#}" th:onclick="|loadPage('@{/getBoard(seq=${board.seq})}')|" th:text="${board.title}" class="text-decoration-none"></a>
             </td>
             <td th:text="${board.writer}"></td>
             <td th:text="${#dates.format(board.createdDate, 'yyyy-MM-dd')}"></td>

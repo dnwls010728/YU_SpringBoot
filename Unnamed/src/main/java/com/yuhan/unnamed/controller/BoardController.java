@@ -23,7 +23,7 @@ public class BoardController {
 
     @GetMapping("/insertBoard")
     public String insertBoardView() {
-        return "insertBoard";
+        return "/board/writeBoard";
     }
 
     @PostMapping("/insertBoard")

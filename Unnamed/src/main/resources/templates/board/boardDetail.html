@@ -14,7 +14,7 @@
         </div>
 
         <div th:if="${username == board.writer}" class="d-flex gap-3">
-            <a th:href="@{#}" class="text-decoration-none">수정</a>
+            <a th:href="@{#}" th:onclick="|loadPage('@{/modifyBoard(seq=${board.seq})}')|" class="text-decoration-none">수정</a>
             <a th:href="@{#}" th:onclick="|loadPage('@{/deleteBoard(seq=${board.seq})}')|" class="text-decoration-none">삭제</a>
         </div>
     </div>

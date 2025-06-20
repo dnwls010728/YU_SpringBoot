@@ -21,13 +21,20 @@ public class BoardController {
         return "board/boardList";
     }
 
+    @PostMapping("/getBoardList")
+    public String getBoardListPost(Board board, Model model) {
+        model.addAttribute("boardList", boardService.getBoardList(board));
+        return "board/boardList";
+    }
+
     @GetMapping("/insertBoard")
     public String insertBoardView() {
         return "/board/writeBoard";
     }
 
     @PostMapping("/insertBoard")
-    public String insertBoard(Board board) {
+    public String insertBoard(Board board, @AuthenticationPrincipal UserDetails userDetails) {
+        board.setWriter(userDetails.getUsername());
         boardService.insertBoard(board);
         return "forward:getBoardList";
     }
@@ -49,5 +56,11 @@ public class BoardController {
     public String deleteBoard(Board board) {
         boardService.deleteBoard(board);
         return "forward:getBoardList";
+    }
+
+    @GetMapping("/modifyBoard")
+    public String modifyBoardView(Board board, Model model) {
+        model.addAttribute("board", boardService.getBoard(board));
+        return "board/modifyBoard";
     }
 }

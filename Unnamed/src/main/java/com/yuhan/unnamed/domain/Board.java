@@ -17,6 +17,8 @@ public class Board {
     @Column(updatable = false)
     private String writer;
 
+    @Lob
+    @Column(columnDefinition = "CLOB")
     private String content;
 
     @Temporal(TemporalType.DATE)

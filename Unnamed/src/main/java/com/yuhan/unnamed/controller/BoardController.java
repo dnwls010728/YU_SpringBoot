@@ -41,6 +41,8 @@ public class BoardController {
 
     @GetMapping("/getBoard")
     public String getBoard(Board board, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        boardService.incrementCnt(board);
+
         model.addAttribute("username", userDetails != null ? userDetails.getUsername() : "");
         model.addAttribute("board", boardService.getBoard(board));
         return "board/boardDetail";

@@ -8,6 +8,7 @@ public interface BoardService {
     void insertBoard(Board board);
     void updateBoard(Board board);
     void deleteBoard(Board board);
+    void incrementCnt(Board board);
     Board getBoard(Board board);
     List<Board> getBoardList(Board board);
 }

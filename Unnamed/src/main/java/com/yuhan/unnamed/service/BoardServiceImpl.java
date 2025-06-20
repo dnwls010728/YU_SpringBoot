@@ -31,6 +31,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public void incrementCnt(Board board) {
+        Board found = boardRepository.findById(board.getSeq()).get();
+        found.setCnt(found.getCnt() + 1);
+        boardRepository.save(found);
+    }
+
+    @Override
     public Board getBoard(Board board) {
         return boardRepository.findById(board.getSeq()).get();
     }

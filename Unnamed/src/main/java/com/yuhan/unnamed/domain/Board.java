@@ -26,7 +26,6 @@ public class Board {
             columnDefinition = "DATE DEFAULT CURRENT_DATE")
     private Date createdDate;
 
-    @Column(insertable = false, updatable = false,
-            columnDefinition = "NUMBER DEFAULT 0")
+    @Column(insertable = false, columnDefinition = "NUMBER DEFAULT 0")
     private int cnt;
 }

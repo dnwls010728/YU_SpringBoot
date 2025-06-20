@@ -4,17 +4,21 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
-public class Board {
+public class Comment {
     @Id
     @GeneratedValue
     private int seq;
 
-    private String title;
+    private int board_seq;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "board_seq",
+            referencedColumnName = "seq",
+            insertable = false, updatable = false)
+    private Board board;
 
     @Column(updatable = false)
     private String writer;
@@ -27,10 +31,4 @@ public class Board {
     @Column(insertable = false, updatable = false,
             columnDefinition = "DATE DEFAULT CURRENT_DATE")
     private Date createdDate;
-
-    @Column(insertable = false, columnDefinition = "NUMBER DEFAULT 0")
-    private int cnt;
-
-    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
 }

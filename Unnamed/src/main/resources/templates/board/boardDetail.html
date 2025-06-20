@@ -1,4 +1,28 @@
-﻿<div style="width: 60%;">
+﻿<script>
+    if (tinymce.get('tiny')) {
+        tinymce.get('tiny').remove();
+    }
+
+    tinymce.init({
+        selector: 'textarea#tiny'
+    });
+
+    document.getElementById('commentForm').addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const res = await fetch(e.target.action, {
+            method: e.target.method,
+            body: formData
+        });
+
+        if (res.ok) {
+            parseHTML(await res.text());
+        }
+    });
+</script>
+
+<div style="width: 60%;">
     <h3 th:text="${board.title}" class="mb-3"></h3>
 
     <div class="d-flex align-items-center mb-2">
@@ -18,8 +42,40 @@
             <a th:href="@{#}" th:onclick="|loadPage('@{/deleteBoard(seq=${board.seq})}')|" class="text-decoration-none">삭제</a>
         </div>
     </div>
-
     <hr>
-
     <div th:utext="${board.content}"></div>
+    <h3 class="mt-4">댓글</h3>
+    <div th:each="comment : ${comments}" class="mb-3">
+        <div class="d-flex align-items-start">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAAAXNSR0IArs4c6QAAAmBJREFUWEfVl+tRAzEMhJVKgEqASoBKgEqASoBKoBPIDt7M3p5k+wI/gmcyMIlsf9bqYe/ihMbuhFji38OcR8RNRFxFBP7HB+NT/r5FxPveBn+nxxbPYNP7/aa306v/AD7ugZ9n5szCAOKhsyA2pYcyM/x+Ld5LlxrBYIOnJokuQDCcWgdlu2weVMAh0Ajm1UAA8TI6YaNjbKlHAXRXxVIPxkHg5iogsTED2CXAb1hLAz2VrIKBNBqoGYhLSBgEayafA104dQaDTT7EMAMBKICrAQ9inseTrgu5FlmWwag8MMYkHagvsNGRZRNixT2kh8CchXcymC/ZBcYeCwoLDwCWMCiGDNgse1zahdcdRskzr4BzC+xI4oWcDqOBu9K0pTklWrm5eVQLZCaVxuRiDYdBgDEFM4nKhURalTE7EEzV5rCPw6gEVdorsJ/cMzE7kMMcpKxgKgmwkPcp2CK+AKK1KUtvOlDD4VcwVb/ymlN5BXZTMKplr1VkfYcww4bYiuoqNn1Dhen1Im6MBVEEz9oXsxeqNDYdRuOhqjOdLjD1U1nLHGYmdRnEfu3E95AIHwRvddUoU39rb8r6UuUOZpn2J5+/2D+D8WbGy9AWEAXUWtRtwjP3GWaH30cQUx6wDGi+HgiFZEA84kCUc+o+A2O/nbkUo0wb1aJ0/qiW6GVITznzHvLWwPlVvxq+KDMPZYHpnqMklGUIAoPR64CSZc8VTWVervSFqYDdVwENZ2C02lZQW9K7rIxbYLgIUh+PNGaOL66Fz+/A3RJ9DIwvSChW3qmekBn9BczRm/vEk4L5Bp0bsiRyplaBAAAAAElFTkSuQmCC" alt="mdo" width="36" height="36" class="rounded-circle m-2">
+            <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center text-muted">
+                    <div class="fw-semibold">
+                        <span th:text="${comment.writer}"></span>
+                    </div>
+
+                    <div th:if="${username == board.writer}" class="d-flex gap-3">
+<!--                        <a th:href="@{#}" th:onclick="|loadPage('@{/modifyComment(seq=${comment.seq})}')|" class="text-decoration-none">수정</a>-->
+                        <a th:href="@{#}" th:onclick="|loadPage('@{/deleteComment(seq=${comment.seq}, board_seq=${board.seq})}')|" class="text-decoration-none">삭제</a>
+                    </div>
+                </div>
+                <div class="mt-1"
+                     th:utext="${#strings.replace(comment.content, '\n', '<br/>')}">
+                </div>
+
+                <div class="text-muted small mt-1">
+                    <span th:text="${#dates.format(comment.createdDate, 'yyyy-MM-dd')}"></span>
+                </div>
+            </div>
+        </div>
+        <hr class="my-2">
+    </div>
+    <form th:action="@{/insertComment}" th:method="post" id="commentForm">
+        <input name="board_seq" type="hidden" th:value="${board.seq}" />
+        <label for="tiny"></label><textarea id="tiny" name="content"></textarea>
+
+        <div class="d-flex justify-content-end mt-3">
+            <input type="submit" class="btn btn-primary" value="등록">
+        </div>
+    </form>
 </div>

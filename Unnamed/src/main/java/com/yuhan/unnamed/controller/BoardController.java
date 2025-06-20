@@ -1,6 +1,7 @@
 package com.yuhan.unnamed.controller;
 
 import com.yuhan.unnamed.domain.Board;
+import com.yuhan.unnamed.domain.Comment;
 import com.yuhan.unnamed.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class BoardController {
@@ -43,15 +46,20 @@ public class BoardController {
     public String getBoard(Board board, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         boardService.incrementCnt(board);
 
+        Board found = boardService.getBoard(board);
+        List<Comment> comments = found.getComments();
+
         model.addAttribute("username", userDetails != null ? userDetails.getUsername() : "");
-        model.addAttribute("board", boardService.getBoard(board));
+        model.addAttribute("board", found);
+        model.addAttribute("comments", comments);
+
         return "board/boardDetail";
     }
 
     @PostMapping("/updateBoard")
     public String updateBoard(Board board) {
         boardService.updateBoard(board);
-        return "forward:getBoardList";
+        return "redirect:/getBoard?seq=" + board.getSeq();
     }
 
     @GetMapping("/deleteBoard")

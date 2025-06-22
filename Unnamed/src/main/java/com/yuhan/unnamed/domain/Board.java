@@ -31,6 +31,12 @@ public class Board {
     @Column(insertable = false, columnDefinition = "NUMBER DEFAULT 0")
     private int cnt;
 
+    @Column(insertable = false, columnDefinition = "NUMBER DEFAULT 0")
+    private int likeCnt;
+
+    @Column(insertable = false, columnDefinition = "NUMBER DEFAULT 0")
+    private int dislikeCnt;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 }

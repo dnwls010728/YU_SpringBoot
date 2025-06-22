@@ -12,10 +12,10 @@ public class Comment {
     @GeneratedValue
     private int seq;
 
-    private int board_seq;
+    private int boardSeq;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "board_seq",
+    @JoinColumn(name = "boardSeq",
             referencedColumnName = "seq",
             insertable = false, updatable = false)
     private Board board;

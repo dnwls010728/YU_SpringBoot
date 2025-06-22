@@ -44,6 +44,38 @@
     </div>
     <hr>
     <div th:utext="${board.content}"></div>
+    <div class="d-flex justify-content-center align-items-center gap-4 my-3">
+        <div class="text-center">
+            <span class="fw-bold text-danger fs-5" th:text="${board.likeCnt}">0</span><br>
+            <i class="bi bi-hand-thumbs-up-fill text-warning small"></i>
+        </div>
+
+        <div class="text-center">
+            <a  th:href="@{#}"
+                th:onclick="|loadPage('@{/likeBoard(seq=${board.seq})}')|"
+                class="btn btn-primary rounded-circle d-flex flex-column justify-content-center align-items-center p-0"
+                style="width:72px;height:72px;">
+                <i class="bi bi-star-fill fs-3 mb-1"></i>
+                <small>개념</small>
+            </a>
+        </div>
+
+        <div class="text-center">
+            <a  th:href="@{#}"
+                th:onclick="|loadPage('@{/dislikeBoard(seq=${board.seq})}')|"
+                class="btn btn-secondary rounded-circle d-flex flex-column justify-content-center align-items-center p-0"
+                style="width:72px;height:72px;">
+                <i class="bi bi-hand-thumbs-down fs-3 mb-1"></i>
+                <small>비추</small>
+            </a>
+        </div>
+
+        <div class="text-center">
+            <span class="fw-bold text-muted fs-5" th:text="${board.dislikeCnt}">2</span><br>
+            <i class="bi bi-hand-thumbs-down-fill text-muted small"></i>
+        </div>
+    </div>
+
     <h3 class="mt-4">댓글</h3>
     <div th:each="comment : ${comments}" class="mb-3">
         <div class="d-flex align-items-start">
@@ -56,7 +88,7 @@
 
                     <div th:if="${username == board.writer}" class="d-flex gap-3">
 <!--                        <a th:href="@{#}" th:onclick="|loadPage('@{/modifyComment(seq=${comment.seq})}')|" class="text-decoration-none">수정</a>-->
-                        <a th:href="@{#}" th:onclick="|loadPage('@{/deleteComment(seq=${comment.seq}, board_seq=${board.seq})}')|" class="text-decoration-none">삭제</a>
+                        <a th:href="@{#}" th:onclick="|loadPage('@{/deleteComment(seq=${comment.seq}, boardSeq=${board.seq})}')|" class="text-decoration-none">삭제</a>
                     </div>
                 </div>
                 <div class="mt-1"
@@ -71,7 +103,7 @@
         <hr class="my-2">
     </div>
     <form th:action="@{/insertComment}" th:method="post" id="commentForm">
-        <input name="board_seq" type="hidden" th:value="${board.seq}" />
+        <input name="boardSeq" type="hidden" th:value="${board.seq}" />
         <label for="tiny"></label><textarea id="tiny" name="content"></textarea>
 
         <div class="d-flex justify-content-end mt-3">

@@ -9,6 +9,7 @@
             <th scope="col">작성자</th>
             <th scope="col">등록일</th>
             <th scope="col">조회수</th>
+            <th scope="col">추천</th>
         </tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
             <td th:text="${board.writer}"></td>
             <td th:text="${#dates.format(board.createdDate, 'yyyy-MM-dd')}"></td>
             <td th:text="${board.cnt}"></td>
+            <td th:text="${board.likeCnt}"></td>
         </tbody>
     </table>
 

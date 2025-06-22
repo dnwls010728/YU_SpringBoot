@@ -9,6 +9,8 @@ public interface BoardService {
     void updateBoard(Board board);
     void deleteBoard(Board board);
     void incrementCnt(Board board);
+    void likeBoard(Board board);
+    void dislikeBoard(Board board);
     Board getBoard(Board board);
     List<Board> getBoardList(Board board);
 }

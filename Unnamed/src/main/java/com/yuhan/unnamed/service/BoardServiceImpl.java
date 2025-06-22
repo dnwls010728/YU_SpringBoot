@@ -38,6 +38,20 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public void likeBoard(Board board) {
+        Board found = boardRepository.findById(board.getSeq()).get();
+        found.setLikeCnt(found.getLikeCnt() + 1);
+        boardRepository.save(found);
+    }
+
+    @Override
+    public void dislikeBoard(Board board) {
+        Board found = boardRepository.findById(board.getSeq()).get();
+        found.setDislikeCnt(found.getDislikeCnt() + 1);
+        boardRepository.save(found);
+    }
+
+    @Override
     public Board getBoard(Board board) {
         return boardRepository.findById(board.getSeq()).get();
     }

@@ -73,4 +73,16 @@ public class BoardController {
         model.addAttribute("board", boardService.getBoard(board));
         return "board/modifyBoard";
     }
+
+    @GetMapping("/likeBoard")
+    public String likeBoard(Board board) {
+        boardService.likeBoard(board);
+        return "redirect:/getBoard?seq=" + board.getSeq();
+    }
+
+    @GetMapping("/dislikeBoard")
+    public String dislikeBoard(Board board) {
+        boardService.dislikeBoard(board);
+        return "redirect:/getBoard?seq=" + board.getSeq();
+    }
 }
